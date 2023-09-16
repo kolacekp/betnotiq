@@ -4,6 +4,7 @@ use App\Http\Controllers\BetController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Livewire\LiveBet;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,5 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// publicly accessbile "bets" live page
+Route::get('/4342c774-da28-466c-8178-2e2d94f8b451', LiveBet::class);
 
 require __DIR__.'/auth.php';
