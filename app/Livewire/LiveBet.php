@@ -4,9 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Bet;
 use Carbon\Carbon;
-use http\Env\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 use Livewire\Component;
 
