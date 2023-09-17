@@ -1,8 +1,8 @@
 <div>
-    <div wire:poll.keep-alive.20s="refreshBet">
+    <div wire:poll.20s.keep-alive>
         @if(empty($bet))
             <pre class="no-bet">
-               No new bet
+               Žádná nová sázka
             </pre>
         @else
             <pre class="bet-{{$bet->id}}">
