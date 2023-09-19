@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -62,7 +61,6 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->role = $request->input('role');
         $user->password = Hash::make($request->input('password'));
-        $user->setCreatedAt(Carbon::now('Europe/Prague'));
         $user->save();
 
         return Redirect::route('users.index')->with('status', 'user-created');
@@ -79,7 +77,6 @@ class UserController extends Controller
             $user->name = $request->input('name');
             $user->email = $request->input('email');
             $user->role = $request->input('role');
-            $user->setUpdatedAt(Carbon::now('Europe/Prague'));
 
             if($request->has('password'))
                 $user->password = Hash::make($request->input('password'));

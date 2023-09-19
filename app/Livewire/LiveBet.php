@@ -17,34 +17,39 @@ class LiveBet extends Component
     {
         // load from cache
         $cached = Cache::get('bet');
-        $this->bet = $cached;
+        $cachedTime = Cache::get('time');
 
-        $performCache = false;
+        if(!empty($cached)){
+            $this->bet = $cached;
 
-        if(empty($this->bet)){
-            $this->bet = Bet::has('user')
-                ->with('user')
-                ->where('created_at', '>=', Carbon::now('Europe/Prague')->subSeconds(20))
-                ->orderBy('created_at')
-                ->orderBy('id')
-                ->first();
-            if($this->bet instanceof Bet)
-                $performCache = true;
-
-        // load new bet only if the current bet is older than 20 s
-        }else{
-            if($this->bet->created_at < Carbon::now('Europe/Prague')->subSeconds(20)) {
-                $bet =  Bet::has('user')
+            if($cachedTime < Carbon::now()->subSeconds(20))
+            {
+                $bet = Bet::has('user')
                     ->with('user')
                     ->where('id', '>', $this->bet->id)
                     ->orderBy('id')
                     ->first();
-                // found new
+
                 if($bet instanceof Bet){
                     $this->bet = $bet;
-                    $performCache = true;
+                    Cache::put('bet', $bet);
+                    Cache::put('time', Carbon::now());
                 }
             }
+        }else{
+            $bet = Bet::has('user')
+                ->with('user')
+                ->where('created_at', '>=', Carbon::now()->subSeconds(20))
+                ->orderBy('created_at')
+                ->orderBy('id')
+                ->first();
+
+            if($bet instanceof Bet){
+                $this->bet = $bet;
+                Cache::put('bet', $bet);
+                Cache::put('time', Carbon::now());
+            }
+
         }
 
         // fallback for still empty bet - take the last
@@ -53,12 +58,7 @@ class LiveBet extends Component
                 ->with('user')
                 ->orderByDesc('id')
                 ->first();
-            $performCache = false;
         }
-
-        // save the actual to session (if different from the older)
-        if($performCache)
-            Cache::put('bet', $this->bet, 20);
 
         return view('livewire.live-bet', [
             'bet' => $this->bet

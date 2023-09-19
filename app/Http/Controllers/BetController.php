@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BetCreateRequest;
 use App\Http\Requests\BetUpdateRequest;
 use App\Models\Bet;
-use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -62,7 +61,6 @@ class BetController extends Controller
         $bet->url = $request->input('url');
         $bet->value = $request->input('value');
         $bet->user()->associate($request->user());
-        $bet->setCreatedAt(Carbon::now('Europe/Prague'));
         $bet->save();
 
         return Redirect::route('bets.index')->with('status', 'bet-created');
@@ -77,8 +75,7 @@ class BetController extends Controller
         Bet::find($request->input('id'))
             ->update([
                 'url' => $request->input('url'),
-                'value' => $request->input('value'),
-                'updated_at' => Carbon::now('Europe/Prague')
+                'value' => $request->input('value')
             ]);
 
         return Redirect::route('bets.edit', ['id' => $request->input('id')])->with('status', 'bet-updated');
