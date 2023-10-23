@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bets', function (Blueprint $table) {
-            $table->boolean('rate_control')->default(false);
-            $table->integer('rate_control_value')->nullable()->default(null);
+            $table->boolean('rate_control')->default(false)->after('value');
+            $table->integer('rate_control_value')->nullable()->default(null)->after('rate_control');
         });
     }
 

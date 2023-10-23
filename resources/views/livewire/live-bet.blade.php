@@ -9,7 +9,7 @@
                 <span class="id">ID: {{$bet->id}}</span>
                 <span class="url">URL: {{$bet->url}}</span>
                 <span class="value">HODNOTA: {{$bet->value}}</span>
-                <span class="rate_control">KONTROLA KURZU: {{$bet->rate_control? $bet->rate_control_value : 'NE'}}</span>
+                <span class="rate_control">KONTROLA KURZU: {{$bet->rate_control? $bet->rate_control_value : 0}}</span>
                 <span class="created">VYTVORENA: {{$bet->created_at}}</span>
                 <span class="name">JMENO: {{$bet->user->name}}</span>
             </pre>
