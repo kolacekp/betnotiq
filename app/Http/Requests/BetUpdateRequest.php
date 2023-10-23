@@ -17,7 +17,7 @@ class BetUpdateRequest extends FormRequest
         return [
             'id' => ['required', 'integer'],
             'url' => ['required', 'string'],
-            'value' => ['required', 'numeric', 'min:0']
+            'value' => ['required', 'numeric', 'min:0', 'max:5']
         ];
     }
 }

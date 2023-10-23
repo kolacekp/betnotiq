@@ -30,6 +30,24 @@
                     </div>
                 @endif
 
+                @if (session('error') !== null)
+                    <div>
+                        <div
+                            x-data="{ show: true }"
+                            x-show="show"
+                            x-transition
+                            x-init="setTimeout(() => show = false, 5000)"
+                            class="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 gap-2"
+                            role="alert"
+                        >
+                            <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                            </svg>
+                            {{ __('bets.'.session('error')) }}
+                        </div>
+                    </div>
+                @endif
+
                 <div>
                     <a href="{{ route('bets.new') }}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
@@ -55,6 +73,12 @@
                                     {!! __('bets.value') !!}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    {!! __('bets.rate_control') !!}
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    {!! __('bets.rate_control_value') !!}
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     {!! __('bets.user_added') !!}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -77,6 +101,12 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         <span class="font-bold">{{$bet->value}}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="font-bold">{{$bet->rate_control ? __('bets.yes') : __('bets.no')}}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="font-bold">{{$bet->rate_control_value}}</span>
                                     </td>
                                     <td class="px-6 py-4">
                                         <span class="font-medium">{{$bet->user->name}}</span>

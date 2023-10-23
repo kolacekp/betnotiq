@@ -16,7 +16,7 @@ class BetCreateRequest extends FormRequest
     {
         return [
             'url' => ['required', 'string'],
-            'value' => ['required', 'numeric', 'min:0']
+            'value' => ['required', 'numeric', 'min:0', 'max:5'],
         ];
     }
 }
