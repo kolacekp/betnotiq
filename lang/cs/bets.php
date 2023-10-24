@@ -21,5 +21,7 @@ return [
     'rate_control' => 'Kontrola kurzu',
     'rate_control_value' => 'Kontrola kurzu - hodnota [%]',
     'yes' => 'Ano',
-    'no' => 'Ne'
+    'no' => 'Ne',
+    'fixed_value' => 'Fixní částka',
+    'fixed_value_value' => 'Fixní částka - hodnota',
 ];

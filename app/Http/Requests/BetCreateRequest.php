@@ -14,9 +14,17 @@ class BetCreateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $isAdmin = self::user()->isAdmin();
+        $schema = [
             'url' => ['required', 'string'],
-            'value' => ['required', 'numeric', 'min:0', 'max:5'],
+            'value' => ['required', 'numeric', 'min:0'],
         ];
+
+        if(!$isAdmin){
+            $schema['value'][] = 'max:5';
+            $schema['fixed_value_value'][] = 'max:5000';
+        }
+
+        return $schema;
     }
 }

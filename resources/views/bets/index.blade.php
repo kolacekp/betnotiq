@@ -76,7 +76,7 @@
                                     {!! __('bets.rate_control') !!}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    {!! __('bets.rate_control_value') !!}
+                                    {!! __('bets.fixed_value') !!}
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     {!! __('bets.user_added') !!}
@@ -103,10 +103,10 @@
                                         <span class="font-bold">{{$bet->value}}</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="font-bold">{{$bet->rate_control ? __('bets.yes') : __('bets.no')}}</span>
+                                        <span class="font-bold">{{$bet->rate_control}}</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="font-bold">{{$bet->rate_control_value}}</span>
+                                        <span class="font-bold">{{$bet->fixed_value}}</span>
                                     </td>
                                     <td class="px-6 py-4">
                                         <span class="font-medium">{{$bet->user->name}}</span>

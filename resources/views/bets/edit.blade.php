@@ -10,7 +10,7 @@
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <section>
-                        <form method="post" action="{{ route('bets.update') }}" class="mt-6 space-y-6" x-data="{rateControl: {{$bet->rate_control}}}">
+                        <form method="post" action="{{ route('bets.update') }}" class="mt-6 space-y-6" x-data="{rateControl: @json($bet->rate_control), fixedValue: @json($bet->fixed_value) }">
                             @csrf
                             @method('patch')
 
@@ -23,7 +23,7 @@
 
                             <div>
                                 <x-input-label for="value" :value="__('bets.value')" />
-                                <x-text-input id="value" name="value" type="number" step="0.01" max="5" class="mt-1 block w-full" :value="old('value', $bet->value)" required autocomplete="value" />
+                                <x-text-input id="value" name="value" type="number" step="0.01" class="mt-1 block w-full" :value="old('value', $bet->value)" required autocomplete="value" />
                                 <x-input-error class="mt-2" :messages="$errors->get('value')" />
                             </div>
 
@@ -35,8 +35,20 @@
 
                             <div x-show="rateControl">
                                 <x-input-label for="rate_control_value" :value="__('bets.rate_control_value')" />
-                                <x-text-input id="rate_control_value" name="rate_control_value" type="number" :value="old('rate_control_value', $bet->rate_control_value ?? 0)" class="mt-1 block w-full" required autocomplete="rate_control_value" />
+                                <x-text-input id="rate_control_value" name="rate_control_value" type="number" :value="old('rate_control_value', $bet->rate_control ?? 0)" class="mt-1 block w-full"/>
                                 <x-input-error class="mt-2" :messages="$errors->get('rate_control_value')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="fixed_value" :value="__('bets.fixed_value')" />
+                                <x-checkbox-input id="fixed_value" name="fixed_value" class="mt-1" x-model="fixedValue" x-bind:checked="fixedValue" />
+                                <x-input-error class="mt-2" :messages="$errors->get('fixed_value')" />
+                            </div>
+
+                            <div x-show="fixedValue">
+                                <x-input-label for="fixed_value_value" :value="__('bets.fixed_value_value')" />
+                                <x-text-input id="fixed_value_value" name="fixed_value_value" type="number" :value="old('fixed_value_value', $bet->fixed_value ?? 0)" class="mt-1 block w-full"/>
+                                <x-input-error class="mt-2" :messages="$errors->get('fixed_value_value')" />
                             </div>
 
                             @if (session('status') === 'bet-updated')

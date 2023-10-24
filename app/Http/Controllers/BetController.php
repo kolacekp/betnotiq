@@ -36,9 +36,10 @@ class BetController extends Controller
         ]);
     }
 
-    public function new(): View
+    public function new(Request $request): View
     {
-        return view('bets.new');
+        $isAdmin = $request->user()->isAdmin();
+        return view('bets.new', ['isAdmin' => $isAdmin]);
     }
 
     public function edit(Request $request, int $id): View
@@ -58,7 +59,9 @@ class BetController extends Controller
 
     public function create(BetCreateRequest $request): RedirectResponse
     {
-        if($request->input('value') >= 5){
+        $isAdmin = $request->user()->isAdmin();
+
+        if(!$isAdmin && $request->input('value') >= 5){
             $lastUserBetsWithHighValue = Bet::where('user_id', $request->user()->id)
                 ->where('created_at', '>=', Carbon::now()->subDay())
                 ->where('value', '>=', 5)
@@ -71,8 +74,8 @@ class BetController extends Controller
         $bet = new Bet();
         $bet->url = $request->input('url');
         $bet->value = $request->input('value');
-        $bet->rate_control = $request->has('rate_control');
-        $bet->rate_control_value = $request->has('rate_control') ? (int)$request->input('rate_control_value') : null;
+        $bet->rate_control = $request->has('rate_control') ? (int)$request->input('rate_control_value') : null;
+        $bet->fixed_value = $request->has('fixed_value') ? (int)$request->input('fixed_value_value') : null;
         $bet->user()->associate($request->user());
         $bet->save();
 
@@ -85,14 +88,12 @@ class BetController extends Controller
         if(!$isAdmin)
             return view('errors.401');
 
-        //dd($request->has('rate_control'), $request->has('rate_control') ? (int)$request->input('rate_control_value') : null);
-
         $bet = Bet::find($request->input('id'));
         if($bet instanceof Bet){
             $bet->url = $request->input('url');
             $bet->value = $request->input('value');
-            $bet->rate_control = $request->has('rate_control');
-            $bet->rate_control_value = $request->has('rate_control') ? (int)$request->input('rate_control_value') : null;
+            $bet->rate_control = $request->has('rate_control') ? (int)$request->input('rate_control_value') : null;
+            $bet->fixed_value = $request->has('fixed_value') ? (int)$request->input('fixed_value_value') : null;
             $bet->save();
         }
 

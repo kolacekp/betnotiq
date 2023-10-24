@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bets', function (Blueprint $table) {
-            $table->integer('rate_control')->nullable()->default(null)->after('value');
+            $table->integer('fixed_value')->nullable()->default(null)->after('rate_control');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bets', function (Blueprint $table) {
-            $table->dropColumn('rate_control');
+            $table->dropColumn('fixed_value');
         });
     }
 };
