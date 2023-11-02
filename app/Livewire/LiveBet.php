@@ -25,7 +25,7 @@ class LiveBet extends Component
             if($cachedTime < Carbon::now()->subSeconds(20))
             {
                 $bet = Bet::has('user')
-                    ->with('user')
+                    ->with(['user', 'combinators'])
                     ->where('id', '>', $this->bet->id)
                     ->orderBy('id')
                     ->first();
@@ -38,7 +38,7 @@ class LiveBet extends Component
             }
         }else{
             $bet = Bet::has('user')
-                ->with('user')
+                ->with(['user', 'combinators'])
                 ->where('created_at', '>=', Carbon::now()->subSeconds(20))
                 ->orderBy('created_at')
                 ->orderBy('id')
@@ -55,13 +55,28 @@ class LiveBet extends Component
         // fallback for still empty bet - take the last
         if(empty($this->bet)){
             $this->bet = Bet::has('user')
-                ->with('user')
+                ->with(['user', 'combinators'])
                 ->orderByDesc('id')
                 ->first();
         }
 
+        // we will parse bet combinators here
+        $combiFix = $combiPercent = '';
+
+        if($this->bet instanceof Bet){
+            /** @var BetCombinator $combinator */
+            foreach($this->bet->combinators as $combinator){
+                if(!is_null($combinator->value))
+                    $combiFix .= $combinator->aku . ";" . $combinator->value . ";";
+                if(!is_null($combinator->percent))
+                    $combiPercent .= $combinator->aku . ";" . $combinator->percent . ";";
+            }
+        }
+
         return view('livewire.live-bet', [
-            'bet' => $this->bet
+            'bet' => $this->bet,
+            'combiFix' => $combiFix,
+            'combiPercent' => $combiPercent
         ]);
     }
 }
