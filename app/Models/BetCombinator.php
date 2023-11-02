@@ -2,21 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Bet extends Model
+class BetCombinator extends Model
 {
-    use HasFactory;
-
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'bets';
+    protected $table = 'bets_combinators';
 
     /**
      * The attributes that are mass assignable.
@@ -24,8 +20,9 @@ class Bet extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'url',
-        'value'
+        'aku',
+        'value',
+        'percent'
     ];
 
     /**
@@ -35,18 +32,11 @@ class Bet extends Model
      */
     protected $primaryKey = 'id';
 
-
     /**
      * User's bets
      */
-    public function user(): BelongsTo
+    public function bet(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Bet::class);
     }
-
-    public function combinators(): HasMany
-    {
-        return $this->hasMany(BetCombinator::class);
-    }
-
 }

@@ -10,7 +10,17 @@
             <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <section>
-                        <form method="post" action="{{ route('bets.update') }}" class="mt-6 space-y-6" x-data="{rateControl: @json($bet->rate_control), fixedValue: @json($bet->fixed_value) }">
+                        <form method="post"
+                              action="{{ route('bets.update') }}"
+                              class="mt-6 space-y-6"
+                              x-data="{
+                                  rateControl: @json($bet->rate_control),
+                                  fixedValue: @json($bet->fixed_value),
+                                  combinators: @json(count($bet->combinators) > 0),
+                                  combinatorsArray: @json($akuIndexes),
+                                  combinatorsTypesArray: @json($akuTypes)
+                              }">
+
                             @csrf
                             @method('patch')
 
@@ -49,6 +59,59 @@
                                 <x-input-label for="fixed_value_value" :value="__('bets.fixed_value_value')" />
                                 <x-text-input id="fixed_value_value" name="fixed_value_value" type="number" :value="old('fixed_value_value', $bet->fixed_value ?? 0)" class="mt-1 block w-full"/>
                                 <x-input-error class="mt-2" :messages="$errors->get('fixed_value_value')" />
+                            </div>
+
+                            <div>
+                                <x-input-label for="combinators" :value="__('bets.combinators')" />
+                                <x-checkbox-input id="combinators" name="combinators" class="mt-1" x-model="combinators"/>
+                                <x-input-error class="mt-2" :messages="$errors->get('combinators')" />
+                            </div>
+
+                            <div class="flex flex-col gap-2" x-show="combinators">
+                                @for ($i = 0; $i < 20; $i++)
+                                    <div class="flex flex-row gap-4 items-center">
+                                        <div class="w-24 py-3 flex items-center">
+                                            <x-checkbox-input id="aku_{{$i}}" name="aku_indexes[{{$i}}]" :value="$i+1" x-model="combinatorsArray[{{$i}}]" />
+                                            <label class="font-medium text-sm text-gray-700 ml-2">
+                                                AKU {{$i + 1}}
+                                            </label>
+                                        </div>
+                                        <div class="w-64 flex items-center" x-show="combinatorsArray[{{$i}}]">
+                                            <div class="flex flex-row gap-4">
+                                                <div>
+                                                    <x-radio-input id="aku_{{$i}}_type_value" name="aku_types[{{$i}}]" value="0" x-model="combinatorsTypesArray[{{$i}}]" x-bind:disabled="!combinatorsArray[{{$i}}]" />
+                                                    <label class="font-medium text-sm text-gray-700 ml-1">{{__('bets.combi_bet')}}</label>
+                                                </div>
+                                                <div>
+                                                    <x-radio-input id="aku_{{$i}}_type_percent" name="aku_types[{{$i}}]" value="1" x-model="combinatorsTypesArray[{{$i}}]" x-bind:disabled="!combinatorsArray[{{$i}}]" />
+                                                    <label class="font-medium text-sm text-gray-700 ml-1">{{__('bets.combi_percent')}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1" x-show="combinatorsArray[{{$i}}] && parseInt(combinatorsTypesArray[{{$i}}]) === 0">
+                                            <x-text-input
+                                                class="w-full disabled:opacity-50"
+                                                id="aku_value_{{$i}}"
+                                                name="aku_values[{{$i}}]"
+                                                type="number"
+                                                :value="$akuValuesValue[$i]"
+                                                x-bind:disabled="!combinatorsArray[{{$i}}]"
+                                            />
+                                        </div>
+                                        <div class="flex-1" x-show="combinatorsArray[{{$i}}] && parseInt(combinatorsTypesArray[{{$i}}]) === 1">
+                                            <x-text-input
+                                                class="w-full disabled:opacity-50"
+                                                id="aku_percent_{{$i}}"
+                                                name="aku_percents[{{$i}}]"
+                                                type="number"
+                                                :value="$akuValuesPercent[$i]"
+                                                step="0.01"
+                                                x-bind:disabled="!combinatorsArray[{{$i}}]"
+                                            />
+                                        </div>
+                                    </div>
+                                @endfor
+
                             </div>
 
                             @if (session('status') === 'bet-updated')

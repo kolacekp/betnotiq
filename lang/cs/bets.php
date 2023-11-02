@@ -24,4 +24,7 @@ return [
     'no' => 'Ne',
     'fixed_value' => 'Fixní částka',
     'fixed_value_value' => 'Fixní částka - hodnota',
+    'combinators' => 'Kombinátory',
+    'combi_bet' => 'Částka',
+    'combi_percent' => '% ze zůstatku na účtě'
 ];
