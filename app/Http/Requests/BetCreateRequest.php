@@ -17,7 +17,7 @@ class BetCreateRequest extends FormRequest
         $isAdmin = self::user()->isAdmin();
         $schema = [
             'url' => ['required', 'string'],
-            'value' => ['required', 'numeric', 'min:0'],
+            'value' => ['numeric', 'min:0'],
         ];
 
         if(!$isAdmin){

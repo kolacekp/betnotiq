@@ -102,7 +102,7 @@ class BetController extends Controller
         // bet itself
         $bet = new Bet();
         $bet->url = $request->input('url');
-        $bet->value = $request->input('value');
+        $bet->value = $request->has('value') ? $request->input('value') : 0;
         $bet->rate_control = $request->has('rate_control') ? (int)$request->input('rate_control_value') : null;
         $bet->fixed_value = $request->has('fixed_value') ? (int)$request->input('fixed_value_value') : null;
         $bet->user()->associate($request->user());
@@ -140,7 +140,7 @@ class BetController extends Controller
         $bet = Bet::find($request->input('id'));
         if($bet instanceof Bet){
             $bet->url = $request->input('url');
-            $bet->value = $request->input('value');
+            $bet->value = $request->has('value') ? $request->input('value') : 0;
             $bet->rate_control = $request->has('rate_control') ? (int)$request->input('rate_control_value') : null;
             $bet->fixed_value = $request->has('fixed_value') ? (int)$request->input('fixed_value_value') : null;
             $bet->save();

@@ -79,12 +79,12 @@
                                         <div class="w-64 flex items-center" x-show="combinatorsArray[{{$i}}]">
                                             <div class="flex flex-row gap-4">
                                                 <div>
-                                                    <x-radio-input id="aku_{{$i}}_type_value" name="aku_types[{{$i}}]" value="0" x-model="combinatorsTypesArray[{{$i}}]" x-bind:disabled="!combinatorsArray[{{$i}}]" />
-                                                    <label class="font-medium text-sm text-gray-700 ml-1">{{__('bets.combi_bet')}}</label>
-                                                </div>
-                                                <div>
                                                     <x-radio-input id="aku_{{$i}}_type_percent" name="aku_types[{{$i}}]" value="1" x-model="combinatorsTypesArray[{{$i}}]" x-bind:disabled="!combinatorsArray[{{$i}}]" />
                                                     <label class="font-medium text-sm text-gray-700 ml-1">{{__('bets.combi_percent')}}</label>
+                                                </div>
+                                                <div>
+                                                    <x-radio-input id="aku_{{$i}}_type_value" name="aku_types[{{$i}}]" value="0" x-model="combinatorsTypesArray[{{$i}}]" x-bind:disabled="!combinatorsArray[{{$i}}]" />
+                                                    <label class="font-medium text-sm text-gray-700 ml-1">{{__('bets.combi_bet')}}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -106,6 +106,7 @@
                                                 type="number"
                                                 :value="$akuValuesPercent[$i]"
                                                 step="0.01"
+                                                min="0.01"
                                                 x-bind:disabled="!combinatorsArray[{{$i}}]"
                                             />
                                         </div>

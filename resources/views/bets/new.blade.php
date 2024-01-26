@@ -16,20 +16,20 @@
                           fixedValue:false,
                           combinators: false,
                           combinatorsArray: new Array(20).fill(false),
-                          combinatorsTypesArray: new Array(20).fill(0)
+                          combinatorsTypesArray: new Array(20).fill(1)
                         }">
                             @csrf
                             @method('post')
 
                             <div>
                                 <x-input-label for="url" :value="__('bets.url')" />
-                                <x-text-input id="url" name="url" type="text" class="mt-1 block w-full" required autofocus />
+                                <x-text-input id="url" name="url" type="url" class="mt-1 block w-full" required autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('url')" />
                             </div>
 
                             <div>
                                 <x-input-label for="value" :value="__('bets.value')" />
-                                <x-text-input id="value" name="value" type="number" step="0.01" :max="$isAdmin? null : 5" class="mt-1 block w-full" required  />
+                                <x-text-input id="value" name="value" type="number" step="0.01" :max="$isAdmin? null : 5" class="mt-1 block w-full" x-bind:disabled="(fixedValue || combinators) ? true : false"  />
                                 <x-input-error class="mt-2" :messages="$errors->get('value')" />
                             </div>
 
@@ -75,12 +75,12 @@
                                         <div class="w-64 flex items-center" x-show="combinatorsArray[{{$i}}]">
                                             <div class="flex flex-row gap-4">
                                                 <div>
-                                                    <x-radio-input id="aku_{{$i}}_type_value" name="aku_types[{{$i}}]" value="0" x-model="combinatorsTypesArray[{{$i}}]" x-bind:disabled="!combinatorsArray[{{$i}}]" />
-                                                    <label class="font-medium text-sm text-gray-700 ml-1">{{__('bets.combi_bet')}}</label>
-                                                </div>
-                                                <div>
                                                     <x-radio-input id="aku_{{$i}}_type_percent" name="aku_types[{{$i}}]" value="1" x-model="combinatorsTypesArray[{{$i}}]" x-bind:disabled="!combinatorsArray[{{$i}}]" />
                                                     <label class="font-medium text-sm text-gray-700 ml-1">{{__('bets.combi_percent')}}</label>
+                                                </div>
+                                                <div>
+                                                    <x-radio-input id="aku_{{$i}}_type_value" name="aku_types[{{$i}}]" value="0" x-model="combinatorsTypesArray[{{$i}}]" x-bind:disabled="!combinatorsArray[{{$i}}]" />
+                                                    <label class="font-medium text-sm text-gray-700 ml-1">{{__('bets.combi_bet')}}</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +101,8 @@
                                                 name="aku_percents[{{$i}}]"
                                                 type="number"
                                                 step="0.01"
-                                                :max="$isAdmin? null : 1"
+                                                min="0.01"
+                                                :max="$isAdmin? null : 0.5"
                                                 x-bind:disabled="!combinatorsArray[{{$i}}]"
                                             />
                                         </div>
