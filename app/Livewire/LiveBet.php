@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Bet;
+use App\Models\BetCombinator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;

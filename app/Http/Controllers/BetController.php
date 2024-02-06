@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BetCreateCashoutRequest;
 use App\Http\Requests\BetCreateRequest;
 use App\Http\Requests\BetUpdateRequest;
 use App\Models\Bet;
@@ -41,6 +42,15 @@ class BetController extends Controller
     {
         $isAdmin = $request->user()->isAdmin();
         return view('bets.new', ['isAdmin' => $isAdmin]);
+    }
+
+    public function newCashout(Request $request): View
+    {
+        $isAdmin = $request->user()->isAdmin();
+        $isManager = $request->user()->isManager();
+        if(!($isAdmin || $isManager))
+            return view('errors.401');
+        return view('bets.newCashout');
     }
 
     public function edit(Request $request, int $id): View
@@ -129,6 +139,25 @@ class BetController extends Controller
         }
 
         return Redirect::route('bets.index')->with('status', 'bet-created');
+    }
+
+    public function createCashout(BetCreateCashoutRequest $request): RedirectResponse
+    {
+        $isAdmin = $request->user()->isAdmin();
+        $isManager = $request->user()->isManager();
+        if(!($isAdmin || $isManager))
+            return Redirect::route('bets.index');
+
+        $bet = new Bet();
+        $bet->type = 'C';
+        $bet->url = '';
+        $bet->value = 0;
+        $bet->cashout_ticket = $request->input('cashout_ticket');
+        $bet->cashout_reason = $request->input('cashout_reason');
+        $bet->user()->associate($request->user());
+        $bet->save();
+
+        return Redirect::route('bets.index')->with('status', 'bet-cashout-created');
     }
 
     public function update(BetUpdateRequest $request): RedirectResponse | View

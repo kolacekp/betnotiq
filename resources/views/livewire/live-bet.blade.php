@@ -13,6 +13,7 @@
                 <span class="fixed_value">FIXNÍ ČÁSTKA: {{$bet->fixed_value ?? 0}}</span>
                 <span class="combi_percent">KOMBI: procento;{{$combiPercent}}</span>
                 <span class="combi_fix">KOMBI: fix;{{$combiFix}}</span>
+                <span class="cashout">CASHOUT: {{$bet->type == 'C' ? $bet->cashout_ticket . ';' . $bet->cashout_reason: 0}}</span>
                 <span class="created">VYTVOŘENA: {{$bet->created_at}}</span>
                 <span class="name">JMÉNO: {{$bet->user->name}}</span>
             </pre>
