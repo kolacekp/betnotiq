@@ -21,8 +21,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function () {
     Route::get('/', [BetController::class, 'index'])->name('bets.index');
     Route::get('/bets/new', [BetController::class, 'new'])->name('bets.new');
+    Route::get('/bets/newCashout', [BetController::class, 'newCashout'])->name('bets.newCashout');
     Route::get('/bets/{id}', [BetController::class, 'edit'])->name('bets.edit');
     Route::post('/bets', [BetController::class, 'create'])->name('bets.create');
+    Route::post('/bets/cashout', [BetController::class, 'createCashout'])->name('bets.createCashout');
     Route::patch('/bets', [BetController::class, 'update'])->name('bets.update');
     Route::delete('/bets', [BetController::class, 'destroy'])->name('bets.destroy');
 
