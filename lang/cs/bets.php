@@ -12,7 +12,9 @@ return [
     'edit_title' => 'Upravit sázku',
     'add_title' => 'Nová sázka',
     'add_cashout_title' => 'Nový cashout',
+    'payout_ticket' => 'Vyplatit ticket',
     'type' => 'Typ záznamu',
+    'url_form' => 'Odkaz na sázku',
     'url' => 'Odkaz na sázku / Cashout ticket <small>(příležitost)</small>',
     'value' => 'Hodnota sázky',
     'save' => 'Uložit',
@@ -32,5 +34,6 @@ return [
     'combi_bet' => 'Částka',
     'combi_percent' => '% ze zůstatku na účtě',
     'cashout_ticket' => 'Ticket',
-    'cashout_reason' => 'Příležitost'
+    'cashout_reason' => 'Příležitost',
+    'cashout_help' => 'Nápověda here'
 ];

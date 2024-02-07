@@ -26,7 +26,7 @@
 
                             <input type="hidden" name="id" value="{{$bet->id}}" />
                             <div>
-                                <x-input-label for="url" :value="__('bets.url')" />
+                                <x-input-label for="url" :value="__('bets.url_form')" />
                                 <x-text-input id="url" name="url" type="text" class="mt-1 block w-full" :value="old('url', $bet->url)" required autofocus autocomplete="url" />
                                 <x-input-error class="mt-2" :messages="$errors->get('url')" />
                             </div>

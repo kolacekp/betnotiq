@@ -22,7 +22,7 @@
                             @method('post')
 
                             <div>
-                                <x-input-label for="url" :value="__('bets.url')" />
+                                <x-input-label for="url" :value="__('bets.url_form')" />
                                 <x-text-input id="url" name="url" type="url" class="mt-1 block w-full" required autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('url')" />
                             </div>
