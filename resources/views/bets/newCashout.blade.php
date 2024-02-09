@@ -39,10 +39,8 @@
                                 </div>
                             </div>
 
-                            <div class="hidden">
-                                <small>
-                                    {{ __('bets.cashout_help') }}
-                                </small>
+                            <div>
+                                <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline" href="{{ asset('files/cashout-manual.pdf') }}" target="_blank">{{ __('bets.cashout_help') }}</a>
                             </div>
 
                             <div class="flex items-center gap-2">
