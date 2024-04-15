@@ -35,5 +35,6 @@ return [
     'combi_percent' => '% ze zůstatku na účtě',
     'cashout_ticket' => 'Ticket',
     'cashout_reason' => 'Příležitost',
-    'cashout_help' => 'Odkaz na manuál'
+    'cashout_help' => 'Odkaz na manuál',
+    'group' => 'Skupina'
 ];

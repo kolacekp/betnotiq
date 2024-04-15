@@ -86,12 +86,20 @@ class BetController extends Controller
             }
         }
 
+        $groups = [false, false, false, false, false, false, false, false];
+        if(!empty($bet->groups)){
+            foreach (json_decode($bet->groups) as $group){
+                $groups[$group] = true;
+            }
+        }
+
         return view('bets.edit', [
             'bet' => $bet,
             'akuIndexes' => $akuIndexes,
             'akuTypes' => $akuTypes,
             'akuValuesValue' => $akuValuesValue,
-            'akuValuesPercent' => $akuValuesPercent
+            'akuValuesPercent' => $akuValuesPercent,
+            'groups' => $groups
         ]);
     }
 
@@ -116,6 +124,16 @@ class BetController extends Controller
         $bet->rate_control = $request->has('rate_control') ? (int)$request->input('rate_control_value') : null;
         $bet->fixed_value = $request->has('fixed_value') ? (int)$request->input('fixed_value_value') : null;
         $bet->user()->associate($request->user());
+
+        if($request->has('groups')){
+            $groups = $request->get('groups');
+            $groupsArray = [];
+            foreach ($groups as $key => $value){
+                $groupsArray[] = $key;
+            }
+            $bet->groups = json_encode($groupsArray);
+        }
+
         $bet->save();
 
         // bet combinators
@@ -172,6 +190,16 @@ class BetController extends Controller
             $bet->value = $request->has('value') ? $request->input('value') : 0;
             $bet->rate_control = $request->has('rate_control') ? (int)$request->input('rate_control_value') : null;
             $bet->fixed_value = $request->has('fixed_value') ? (int)$request->input('fixed_value_value') : null;
+
+            if($request->has('groups')){
+                $groups = $request->get('groups');
+                $groupsArray = [];
+                foreach ($groups as $key => $value){
+                    $groupsArray[] = $key;
+                }
+                $bet->groups = json_encode($groupsArray);
+            }
+
             $bet->save();
 
             // bet combinators

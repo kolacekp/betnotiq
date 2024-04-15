@@ -61,8 +61,9 @@ class LiveBet extends Component
                 ->first();
         }
 
-        // we will parse bet combinators here
+        // we will parse bet combinators and groups here
         $combiFix = $combiPercent = '';
+        $groups = [];
 
         if($this->bet instanceof Bet){
             /** @var BetCombinator $combinator */
@@ -72,12 +73,20 @@ class LiveBet extends Component
                 if(!is_null($combinator->percent))
                     $combiPercent .= $combinator->aku . ";" . $combinator->percent . ";";
             }
+
+            if(!empty($this->bet->groups)){
+                foreach (json_decode($this->bet->groups) as $group){
+                    $groups[] = 'sk_00' . (int)$group + 1;
+                }
+            }
+
         }
 
         return view('livewire.live-bet', [
             'bet' => $this->bet,
             'combiFix' => $combiFix,
-            'combiPercent' => $combiPercent
+            'combiPercent' => $combiPercent,
+            'groups' => implode(' ', $groups)
         ]);
     }
 }

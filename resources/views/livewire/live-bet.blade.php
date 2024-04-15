@@ -7,6 +7,7 @@
         @else
             <pre class="bet-{{$bet->id}}">
                 <span class="id">ID: {{$bet->id}}</span>
+                <span class="group">SKUPINA: {{$groups}}</span>
                 <span class="url">URL: {{$bet->url}}</span>
                 <span class="value">HODNOTA: {{is_null($bet->fixed_value) ? $bet->value : 0}}</span>
                 <span class="rate_control">KONTROLA KURZU: {{$bet->rate_control ?? 0}}</span>

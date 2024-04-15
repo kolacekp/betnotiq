@@ -18,11 +18,33 @@
                                   fixedValue: @json($bet->fixed_value),
                                   combinators: @json(count($bet->combinators) > 0),
                                   combinatorsArray: @json($akuIndexes),
-                                  combinatorsTypesArray: @json($akuTypes)
+                                  combinatorsTypesArray: @json($akuTypes),
+                                  groupsNamesArray: ['Robovo členství', 'Členství All in', 'Cesta k milionu', 'Mistrovství Světa', 'Live aréna', 'Nevyplněno', 'Nevyplněno', 'Nevyplněno'],
+                                  groupsArray: @json($groups),
+                                  groupsAll: false,
                               }">
 
                             @csrf
                             @method('patch')
+
+                             <div>
+                                 <x-input-label for="url" :value="__('bets.group')" />
+                                 <div class="flex flex-col gap-1 mt-2">
+                                     @for ($i = 0; $i < 8; $i++)
+                                         <div>
+                                             <x-checkbox-input id="group_{{$i}}" name="groups[{{$i}}]" x-model="groupsArray[{{$i}}]"/>
+                                            <label class="font-medium text-sm text-gray-700 ml-2" x-text="groupsNamesArray[{{$i}}]">
+                                            </label>
+                                         </div>
+                                     @endfor
+                                     <div>
+                                         <x-checkbox-input id="groupsAll" name="groupsAll" x-model="groupsAll" @click="groupsArray = groupsArray.map(() => !groupsAll)"/>
+                                         <label class="font-medium text-sm text-gray-700 ml-2">
+                                             Vše
+                                         </label>
+                                     </div>
+                                 </div>
+                            </div>
 
                             <input type="hidden" name="id" value="{{$bet->id}}" />
                             <div>
